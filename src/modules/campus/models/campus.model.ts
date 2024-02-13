@@ -1,5 +1,6 @@
-import { AllowNull, Column, DataType, Default, IsEmail, IsUrl, Model, PrimaryKey, Table, Unique } from 'sequelize-typescript';
+import { AllowNull, Column, DataType, Default, HasMany, IsEmail, IsUrl, Model, PrimaryKey, Table, Unique } from 'sequelize-typescript';
 import { IsPhoneNumber, IsString } from 'class-validator';
+import { StudentModel } from 'src/modules/student/models/student.model';
 
 @Table({
   tableName: 'campus',
@@ -54,6 +55,9 @@ export class CampusModel extends Model<CampusModel> {
   @Unique
   @Column
   campusId: string;
+
+  @HasMany(() => StudentModel, { foreignKey: 'campus_fk' })
+  student: StudentModel;
 
   @IsUrl
   @Column

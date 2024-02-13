@@ -1,24 +1,20 @@
 import {
   BadRequestException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateCampusDto } from './dto/create-campus-dto';
 import { Transaction } from 'sequelize';
 import { CampusRepository } from './repositories/campus.repository';
-import { CacheStoreService } from 'src/shared/cache-store/cache-store.service';
-import { HttpRequestService } from 'src/shared/http-request/http-request.service';
 import { Op } from 'sequelize';
 import { ICreateCampus, IUpdateCampus } from './interfaces/campus.interface';
 import { UpdateCampusDto } from './dto/update-campus-dto';
+import { CampusModel } from './models/campus.model';
 
 @Injectable()
 export class CampusService {
   constructor(
     private readonly campusRepository: CampusRepository,
-    private readonly cacheStoreService: CacheStoreService,
-    private readonly httpRequestService: HttpRequestService,
   ) {}
 
   async create(createCampusDto: CreateCampusDto, transaction: Transaction) {
@@ -43,8 +39,15 @@ export class CampusService {
     return data;
   }
 
-  async findAllCampus() {
-    const campus = await this.campusRepository.findAll();
+  async findAllCampus(campusId: string) {
+    let campus: CampusModel[];
+    if (campusId) {
+      campus = await this.campusRepository.findAll({
+        [Op.or]: [{ campusId }],
+      });
+    } else {
+      campus = await this.campusRepository.findAll();
+    }
 
     if (!campus || campus.length === 0)
       throw new NotFoundException('No record found!');
@@ -88,9 +91,11 @@ export class CampusService {
   }
 
   async delete(campusId: string, transaction: Transaction) {
+    console.log(campusId)
     const campus = await this.campusRepository.findOne({
       [Op.or]: [{ campusId }],
     });
+    console.log(campus)
     if (!campus) throw new NotFoundException('Campus not found');
     const removeCampus = await this.campusRepository.delete(
       {

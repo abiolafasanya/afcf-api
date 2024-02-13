@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CampusService } from './campus.service';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CreateCampusDto } from './dto/create-campus-dto';
@@ -14,14 +14,14 @@ export class CampusController {
   @Public()
   @Get('')
   @ResponseMessage('Campus Records')
-  async getAllCampus() {
-    return this.campusService.findAllCampus();
+  async getAllCampus(@Query('campusId') campusId) {
+    return this.campusService.findAllCampus(campusId);
   }
 
   @Public()
   @Get(':campusId')
   @ResponseMessage('Campus Records')
-  async getCampus(@Param("campusId") campusId) {
+  async getCampus(@Param('campusId') campusId) {
     return this.campusService.findCampus(campusId);
   }
 
@@ -51,8 +51,9 @@ export class CampusController {
   async updateCampus(
     @Param('campusId') campusId: string,
     @TransactionParam() transaction: Transaction,
-    @Body() updateCampusDto: UpdateCampusDto
+    @Body() updateCampusDto: UpdateCampusDto,
   ) {
     return this.campusService.update(campusId, updateCampusDto, transaction);
   }
+
 }

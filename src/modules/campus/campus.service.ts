@@ -91,11 +91,9 @@ export class CampusService {
   }
 
   async delete(campusId: string, transaction: Transaction) {
-    console.log(campusId)
     const campus = await this.campusRepository.findOne({
       [Op.or]: [{ campusId }],
     });
-    console.log(campus)
     if (!campus) throw new NotFoundException('Campus not found');
     const removeCampus = await this.campusRepository.delete(
       {

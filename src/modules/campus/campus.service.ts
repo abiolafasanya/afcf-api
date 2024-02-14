@@ -6,72 +6,51 @@ import {
 import { CreateCampusDto } from './dto/create-campus-dto';
 import { Transaction } from 'sequelize';
 import { CampusRepository } from './repositories/campus.repository';
-import { Op } from 'sequelize';
 import { ICreateCampus, IUpdateCampus } from './interfaces/campus.interface';
 import { UpdateCampusDto } from './dto/update-campus-dto';
 import { CampusModel } from './models/campus.model';
 
 @Injectable()
 export class CampusService {
-  constructor(
-    private readonly campusRepository: CampusRepository,
-  ) {}
+  constructor(private readonly campusRepository: CampusRepository) {}
 
   async create(createCampusDto: CreateCampusDto, transaction: Transaction) {
     const { campusName } = createCampusDto;
 
-    const campus = await this.campusRepository.findOne({
-      [Op.or]: [{ campusName }],
-    });
+    const campus = await this.campusRepository.findOne({ campusName });
 
     if (campus) throw new BadRequestException('Campus already exists');
 
     const payload: ICreateCampus = {
       ...createCampusDto,
-      pastorEmail: createCampusDto.pastorEmail.toLowerCase(),
-      campusId: this.generateUniqueCodes(),
+      campusCode: this.generateUniqueCodes(),
     };
 
     const campusData = await this.campusRepository.create(payload, transaction);
 
-    const { ...data } = campusData.toJSON();
-
-    return data;
+    return campusData;
   }
 
-  async findAllCampus(campusId: string) {
-    let campus: CampusModel[];
-    if (campusId) {
-      campus = await this.campusRepository.findAll({
-        [Op.or]: [{ campusId }],
-      });
-    } else {
-      campus = await this.campusRepository.findAll();
-    }
-
+  async findAllCampus() {
+    const campus: CampusModel[] = await this.campusRepository.findAll();
     if (!campus || campus.length === 0)
       throw new NotFoundException('No record found!');
-    return campus.map((campus) => campus.toJSON());
+    return campus;
   }
 
-  async findCampus(campusId: string) {
-    const campus = await this.campusRepository.findOne({
-      campusId,
-    });
+  async findCampus(campusCode: string) {
+    const campus = await this.campusRepository.findOne({ campusCode });
 
     if (!campus) throw new NotFoundException('No record found!');
-    const { ...data } = campus.toJSON();
-    return data;
+    return campus;
   }
 
   async update(
-    campusId: string,
+    campusCode: string,
     updateCampusDto: UpdateCampusDto,
     transaction: Transaction,
   ) {
-    const campus = await this.campusRepository.findOne({
-      [Op.or]: [{ campusId }],
-    });
+    const campus = await this.campusRepository.findOne({ campusCode });
 
     if (!campus) throw new BadRequestException('Campus not found');
 
@@ -90,22 +69,18 @@ export class CampusService {
     return;
   }
 
-  async delete(campusId: string, transaction: Transaction) {
-    const campus = await this.campusRepository.findOne({
-      [Op.or]: [{ campusId }],
-    });
+  async delete(campusCode: string, transaction: Transaction) {
+    const campus = await this.campusRepository.findOne({ campusCode });
     if (!campus) throw new NotFoundException('Campus not found');
     const removeCampus = await this.campusRepository.delete(
-      {
-        [Op.or]: [{ id: campus.id }],
-      },
+      { id: campus.id },
       transaction,
     );
     if (!removeCampus) throw new BadRequestException('Operation failed');
     return;
   }
 
-  generateUniqueCodes() {
+  private generateUniqueCodes() {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let uniqueCode = '';

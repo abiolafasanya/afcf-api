@@ -35,8 +35,8 @@ export class StudentController {
   @Public()
   @ResponseMessage('All students record')
   @Get()
-  findAll(@Query('campusId') campusId: string) {
-    return this.studentService.findAll(campusId);
+  findAll() {
+    return this.studentService.findAll();
   }
 
   @Public()

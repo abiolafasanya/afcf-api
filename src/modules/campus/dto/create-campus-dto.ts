@@ -36,7 +36,7 @@ export class CreateCampusDto {
 
   @IsPhoneNumber('NG')
   @IsNotEmpty()
-  pastorNumber: string;
+  pastorPhoneNumber: string;
 
   @IsEmail()
   @IsOptional()

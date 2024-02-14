@@ -10,11 +10,11 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
 } from 'sequelize-typescript';
 import { IsOptional, IsPhoneNumber, IsString } from 'class-validator';
 import { Gender } from '../interfaces/student.interface';
 import { CampusModel } from 'src/modules/campus/models/campus.model';
-import { DATE } from 'sequelize';
 
 @Table({
   tableName: 'student',
@@ -28,152 +28,90 @@ export class StudentModel extends Model<StudentModel> {
   @Column(DataType.UUID)
   id: string;
 
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
-  surName: string;
+  @AllowNull(false)
+  @Column
+  lastName: string;
 
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
+  @IsString()
+  @AllowNull(false)
+  @Column
   firstName: string;
 
   @IsOptional()
-  @Column({
-    type: DataType.TEXT,
-  })
+  @Column
   otherName: string;
 
-  @Column({
-    type: DataType.DATEONLY,
-    allowNull: false,
-  })
+  @IsString()
+  @Column(DataType.DATEONLY)
   dateOfBirth: string;
 
   @IsPhoneNumber('NG')
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
+  @Column
   phoneNumber: string;
 
   @IsEmail
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-    unique: true,
-  })
+  @Unique
+  @AllowNull(false)
+  @Column
   email: string;
 
-  @Column({
-    type: DataType.ENUM(Gender.FEMALE, Gender.MALE),
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Column(DataType.ENUM(Gender.FEMALE, Gender.MALE))
   gender: Gender;
 
   @IsString()
-  @IsOptional()
-  @Column({
-    type: DataType.TEXT,
-  })
-  course: string;
-
-  @IsString()
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Column
   department: string;
 
   @IsString()
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Column
   level: string;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Column
   durationOfProgram: number;
 
   @IsString()
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Column
   session: string;
 
   @AllowNull(false)
-  @Column({
-    type: DataType.DATEONLY,
-    allowNull: false,
-  })
+  @Column(DataType.DATEONLY)
   salvationDate: string;
 
   @AllowNull(false)
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
+  @Column
   isSanctified: boolean;
 
   @AllowNull(false)
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
+  @Column
   isBaptized: boolean;
 
   @IsOptional()
-  @Column({
-    type: DataType.BOOLEAN,
-    defaultValue: false
-  })
+  @Default(false)
+  @Column
   isExco: boolean;
 
+  @IsOptional()
+  @Default(false)
+  @Column
+  isGraduated: boolean;
+
   @ForeignKey(() => CampusModel)
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
-  campusId: string;
+  @Column
+  campusCode: string;
 
   @IsUrl
-  @IsOptional()
   @Column
   photo: string;
 
-  @Column({
-    type: DataType.ARRAY(DataType.TEXT),
-    allowNull: true,
-    defaultValue: [],
-  })
-  role: string[];
+  @Default([])
+  @Column(DataType.JSONB)
+  roles: { [key: string]: string }[];
 
-  @BelongsTo(() => CampusModel, { foreignKey: 'campus_fk' })
+  @BelongsTo(() => CampusModel, { foreignKey: 'studentId' })
   campus: CampusModel;
 }
-
-/**
-  campusId: string;
- surName: string;
- firstName: string;
-  otherName: string;
-  gender: Gender;
-  email: string;
-  phoneNumber: string;
-  course: string;
-  level: string;
-  session: string;
-  dateOfBirth: string;
-  roles: string[]
-  salvationDate: string;
-  isSantified: boolean;
-  isBaptized: boolean;
-  isExco: boolean;
- * 
- * **/ 

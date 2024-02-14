@@ -1,10 +1,11 @@
 import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUrl } from "class-validator";
 import { Gender } from "../interfaces/student.interface";
+import { Transform } from "class-transformer";
 
 export class CreateStudentDto {
   @IsString()
   @IsNotEmpty()
-  surName: string;
+  lastName: string;
 
   @IsString()
   @IsNotEmpty()
@@ -20,6 +21,7 @@ export class CreateStudentDto {
 
   @IsEmail()
   @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase(), { toClassOnly: true })
   email: string;
 
   @IsNumber()
@@ -28,10 +30,6 @@ export class CreateStudentDto {
 
   @IsPhoneNumber('NG')
   phoneNumber: string;
-
-  @IsString()
-  @IsOptional()
-  course: string;
 
   @IsString()
   @IsNotEmpty()

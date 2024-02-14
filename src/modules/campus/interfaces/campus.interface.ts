@@ -6,10 +6,10 @@ export interface ICreateCampus {
   pastorName: string;
   branchName: string;
   pastorEmail?: string;
-  pastorNumber: string;
-  noOfStudent: number;
-  noOfStaff: number;
-  campusId?: string;
+  pastorPhoneNumber: string;
+  noOfStudent?: number;
+  noOfStaff?: number;
+  campusCode: string;
 }
 
 export interface IUpdateCampus extends Partial<ICreateCampus> {}

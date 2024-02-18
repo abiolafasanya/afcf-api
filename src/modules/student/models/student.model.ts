@@ -30,18 +30,13 @@ export class StudentModel extends Model<StudentModel> {
 
   @AllowNull(false)
   @Column
-  lastName: string;
-
-  @IsString()
-  @AllowNull(false)
-  @Column
   firstName: string;
 
-  @IsOptional()
+  @AllowNull(false)
   @Column
-  otherName: string;
+  lastName: string;
 
-  @IsString()
+  @AllowNull(false)
   @Column(DataType.DATEONLY)
   dateOfBirth: string;
 
@@ -59,12 +54,10 @@ export class StudentModel extends Model<StudentModel> {
   @Column(DataType.ENUM(Gender.FEMALE, Gender.MALE))
   gender: Gender;
 
-  @IsString()
   @AllowNull(false)
   @Column
   department: string;
 
-  @IsString()
   @AllowNull(false)
   @Column
   level: string;
@@ -73,7 +66,6 @@ export class StudentModel extends Model<StudentModel> {
   @Column
   durationOfProgram: number;
 
-  @IsString()
   @AllowNull(false)
   @Column
   session: string;
@@ -106,7 +98,7 @@ export class StudentModel extends Model<StudentModel> {
 
   @IsUrl
   @Column
-  photo: string;
+  imageUrl: string;
 
   @Default([])
   @Column(DataType.JSONB)

@@ -50,7 +50,7 @@ export class StudentService {
   }
 
   async findAll() {
-    const students: StudentModel[] = await this.studentRepository.findAll();
+    const students = await this.studentRepository.findAll();
 
     if (!students || students.length === 0)
       throw new NotFoundException('No record found!');

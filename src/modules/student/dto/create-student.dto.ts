@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUrl } from "class-validator";
+import { IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUrl } from "class-validator";
 import { Gender } from "../interfaces/student.interface";
 import { Transform } from "class-transformer";
 
@@ -10,10 +10,6 @@ export class CreateStudentDto {
   @IsString()
   @IsNotEmpty()
   firstName: string;
-
-  @IsString()
-  @IsOptional()
-  otherName?: string;
 
   @IsEnum(Gender)
   @IsNotEmpty()
@@ -43,15 +39,16 @@ export class CreateStudentDto {
   @IsNotEmpty()
   session: string;
 
-  @IsString()
+  @IsDate()
   @IsNotEmpty()
-  dateOfBirth: string;
+  dateOfBirth: Date;
 
+  @IsOptional()
   roles: string[];
 
-  @IsString()
+  @IsDate()
   @IsNotEmpty()
-  salvationDate: string;
+  salvationDate: Date;
 
   @IsBoolean()
   isSanctified: boolean;
@@ -66,5 +63,5 @@ export class CreateStudentDto {
   @IsUrl()
   @IsString()
   @IsOptional()
-  photo: string;
+  imageUrl: string;
 }

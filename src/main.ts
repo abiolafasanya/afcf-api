@@ -9,7 +9,7 @@ async function bootstrap() {
 
   const port = process.env.PORT;
 
-  app.setGlobalPrefix('/api/v1');
+  app.setGlobalPrefix('/api/v2');
 
   app.use(compression());
 

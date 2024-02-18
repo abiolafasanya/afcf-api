@@ -61,7 +61,7 @@ export class CampusModel extends Model<CampusModel> {
   
   @IsUrl
   @Column
-  campusPicture: string;
+  imageUrl: string;
 
   @HasMany(() => StudentModel, { foreignKey: 'campusId' })
   student: StudentModel;

@@ -1,6 +1,6 @@
 export interface ICreateCampus {
   campusName: string;
-  campusPicture?: string;
+  imageUrl?: string;
   state: string;
   town: string;
   pastorName: string;

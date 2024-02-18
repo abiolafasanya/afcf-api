@@ -20,7 +20,7 @@ export class CreateCampusDto {
 
   @IsUrl()
   @IsOptional()
-  campusPicture: string;
+  imageUrl: string;
 
   @IsNumber()
   @IsNotEmpty()

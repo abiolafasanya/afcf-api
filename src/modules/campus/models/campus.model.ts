@@ -1,4 +1,16 @@
-import { AllowNull, Column, DataType, Default, HasMany, IsEmail, IsUrl, Model, PrimaryKey, Table, Unique } from 'sequelize-typescript';
+import {
+  AllowNull,
+  Column,
+  DataType,
+  Default,
+  HasMany,
+  IsEmail,
+  IsUrl,
+  Model,
+  PrimaryKey,
+  Table,
+  Unique,
+} from 'sequelize-typescript';
 import { IsBoolean, IsPhoneNumber, IsString } from 'class-validator';
 import { StudentModel } from 'src/modules/student/models/student.model';
 
@@ -57,12 +69,12 @@ export class CampusModel extends Model<CampusModel> {
   @IsBoolean()
   @Default(true)
   @Column
-  isActivated: boolean
-  
+  isActivated: boolean;
+
   @IsUrl
   @Column
   imageUrl: string;
 
-  @HasMany(() => StudentModel, { foreignKey: 'campusId' })
-  student: StudentModel;
+  @HasMany(() => StudentModel)
+  students: StudentModel[];
 }

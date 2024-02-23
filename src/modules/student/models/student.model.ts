@@ -95,15 +95,17 @@ export class StudentModel extends Model<StudentModel> {
   @ForeignKey(() => CampusModel)
   @Column
   campusCode: string;
-
+  
   @IsUrl
   @Column
   imageUrl: string;
-
+  
   @Default([])
   @Column(DataType.JSONB)
   roles: { [key: string]: string }[];
 
-  @BelongsTo(() => CampusModel, { foreignKey: 'studentId' })
+
+  @BelongsTo(() => CampusModel)
   campus: CampusModel;
 }
+

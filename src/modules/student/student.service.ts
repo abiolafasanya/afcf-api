@@ -17,28 +17,18 @@ import { StudentModel } from './models/student.model';
 export class StudentService {
   constructor(
     private readonly studentRepository: StudentRepository,
-    private readonly campusService: CampusService,
-    // private readonly cacheStoreService: CacheStoreService,
+    private readonly campusService: CampusService, // private readonly cacheStoreService: CacheStoreService,
   ) {}
 
-  async create(
-    campusCode: string,
-    createStudentDto: CreateStudentDto,
-    transaction: Transaction,
-  ) {
-    const campus = await this.campusService.findCampus(campusCode);
-    if (!campus)
-      throw new BadRequestException(
-        'CampusId is not valid, use a valid campusId',
-      );
-
+  async create(createStudentDto: CreateStudentDto, transaction: Transaction) {
+    const { campusCode } = createStudentDto;
+    await this.campusService.findCampus(campusCode);
     const user = await this.studentRepository.findOne({
       email: createStudentDto.email,
     });
     if (user) throw new ConflictException('Duplicate record, email taken');
     const payload: ICreateStudent = {
       ...createStudentDto,
-      campusCode,
     };
 
     const createStudent = await this.studentRepository.create(
@@ -82,7 +72,7 @@ export class StudentService {
       throw new BadRequestException(
         'Operation failed, please check your inputs and try again',
       );
-    return;
+    return updateStudent;
   }
 
   async remove(studentId: string, transaction: Transaction) {

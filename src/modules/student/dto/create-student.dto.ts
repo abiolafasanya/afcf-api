@@ -3,6 +3,10 @@ import { Gender } from "../interfaces/student.interface";
 import { Transform } from "class-transformer";
 
 export class CreateStudentDto {
+
+  @IsString()
+  campusCode: string
+
   @IsString()
   @IsNotEmpty()
   lastName: string;

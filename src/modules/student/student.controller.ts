@@ -27,9 +27,8 @@ export class StudentController {
   create(
     @Body() createStudentDto: CreateStudentDto,
     @TransactionParam() transaction: Transaction,
-    @Query('campusId') campusId,
   ) {
-    return this.studentService.create(campusId, createStudentDto, transaction);
+    return this.studentService.create(createStudentDto, transaction);
   }
 
   @Public()

@@ -41,7 +41,7 @@ export class CampusService {
   async findCampus(campusCode: string) {
     const campus = await this.campusRepository.findOne({ campusCode });
 
-    if (!campus) throw new NotFoundException('No record found!');
+    if (!campus) throw new NotFoundException('Campus not found!');
     return campus;
   }
 
@@ -66,7 +66,7 @@ export class CampusService {
 
     if (!updateCampus) throw new BadRequestException('Update Operation Failed');
 
-    return;
+    return updateCampus
   }
 
   async delete(campusCode: string, transaction: Transaction) {

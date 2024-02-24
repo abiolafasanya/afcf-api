@@ -48,16 +48,13 @@ export class CampusModel extends Model<CampusModel> {
   @Column
   noOfStaff: number;
 
-  @AllowNull(false)
   @Column
   pastorName: string;
 
-  @AllowNull(false)
   @IsEmail
   @Column
   pastorEmail: string;
 
-  @AllowNull(false)
   @Column
   @IsPhoneNumber('NG')
   pastorPhoneNumber: string;

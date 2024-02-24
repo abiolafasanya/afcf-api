@@ -31,11 +31,11 @@ export class CreateCampusDto {
   noOfStaff: number;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   pastorName: string;
 
   @IsPhoneNumber('NG')
-  @IsNotEmpty()
+  @IsOptional()
   pastorPhoneNumber: string;
 
   @IsEmail()

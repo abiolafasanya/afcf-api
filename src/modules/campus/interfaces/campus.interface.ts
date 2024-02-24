@@ -3,10 +3,10 @@ export interface ICreateCampus {
   imageUrl?: string;
   state: string;
   town: string;
-  pastorName: string;
   branchName: string;
   pastorEmail?: string;
-  pastorPhoneNumber: string;
+  pastorName?: string;
+  pastorPhoneNumber?: string;
   noOfStudent?: number;
   noOfStaff?: number;
   campusCode: string;

@@ -1,15 +1,15 @@
 export interface ICreateCampus {
   campusName: string;
-  campusPicture?: string;
+  imageUrl?: string;
   state: string;
   town: string;
-  pastorName: string;
   branchName: string;
   pastorEmail?: string;
-  pastorNumber: string;
-  noOfStudent: number;
-  noOfStaff: number;
-  campusId?: string;
+  pastorName?: string;
+  pastorPhoneNumber?: string;
+  noOfStudent?: number;
+  noOfStaff?: number;
+  campusCode: string;
 }
 
 export interface IUpdateCampus extends Partial<ICreateCampus> {}

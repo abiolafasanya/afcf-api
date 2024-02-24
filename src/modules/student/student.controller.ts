@@ -27,16 +27,15 @@ export class StudentController {
   create(
     @Body() createStudentDto: CreateStudentDto,
     @TransactionParam() transaction: Transaction,
-    @Query('campusId') campusId,
   ) {
-    return this.studentService.create(campusId, createStudentDto, transaction);
+    return this.studentService.create(createStudentDto, transaction);
   }
 
   @Public()
   @ResponseMessage('All students record')
   @Get()
-  findAll(@Query('campusId') campusId: string) {
-    return this.studentService.findAll(campusId);
+  findAll() {
+    return this.studentService.findAll();
   }
 
   @Public()

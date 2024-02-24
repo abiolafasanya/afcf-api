@@ -1,23 +1,21 @@
 export interface ICreateStudent {
-  campusId: string;
-  surName: string;
+  campusCode: string;
+  lastName: string;
   firstName: string;
-  otherName?: string;
   gender: Gender;
   email: string;
   durationOfProgram?: number;
   phoneNumber: string;
-  course?: string;
   department: string;
   level: string;
   session: string;
-  dateOfBirth: string;
+  dateOfBirth: Date;
   roles?: string[];
-  salvationDate: string;
+  salvationDate: Date;
   isSanctified: boolean;
   isBaptized: boolean;
   isExco?: boolean;
-  photo?: string;
+  imageUrl?: string;
 }
 
 export interface IUpdateStudent extends Partial<ICreateStudent> {}

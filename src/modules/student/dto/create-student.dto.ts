@@ -1,18 +1,19 @@
-import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUrl } from "class-validator";
+import { IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsString, IsUrl } from "class-validator";
 import { Gender } from "../interfaces/student.interface";
+import { Transform } from "class-transformer";
 
 export class CreateStudentDto {
+
+  @IsString()
+  campusCode: string
+
   @IsString()
   @IsNotEmpty()
-  surName: string;
+  lastName: string;
 
   @IsString()
   @IsNotEmpty()
   firstName: string;
-
-  @IsString()
-  @IsOptional()
-  otherName?: string;
 
   @IsEnum(Gender)
   @IsNotEmpty()
@@ -20,6 +21,7 @@ export class CreateStudentDto {
 
   @IsEmail()
   @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase(), { toClassOnly: true })
   email: string;
 
   @IsNumber()
@@ -28,10 +30,6 @@ export class CreateStudentDto {
 
   @IsPhoneNumber('NG')
   phoneNumber: string;
-
-  @IsString()
-  @IsOptional()
-  course: string;
 
   @IsString()
   @IsNotEmpty()
@@ -45,15 +43,16 @@ export class CreateStudentDto {
   @IsNotEmpty()
   session: string;
 
-  @IsString()
+  @IsDate()
   @IsNotEmpty()
-  dateOfBirth: string;
+  dateOfBirth: Date;
 
+  @IsOptional()
   roles: string[];
 
-  @IsString()
+  @IsDate()
   @IsNotEmpty()
-  salvationDate: string;
+  salvationDate: Date;
 
   @IsBoolean()
   isSanctified: boolean;
@@ -68,5 +67,5 @@ export class CreateStudentDto {
   @IsUrl()
   @IsString()
   @IsOptional()
-  photo: string;
+  imageUrl: string;
 }

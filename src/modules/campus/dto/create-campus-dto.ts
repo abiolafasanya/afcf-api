@@ -20,7 +20,7 @@ export class CreateCampusDto {
 
   @IsUrl()
   @IsOptional()
-  campusPicture: string;
+  imageUrl: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -31,12 +31,12 @@ export class CreateCampusDto {
   noOfStaff: number;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   pastorName: string;
 
   @IsPhoneNumber('NG')
-  @IsNotEmpty()
-  pastorNumber: string;
+  @IsOptional()
+  pastorPhoneNumber: string;
 
   @IsEmail()
   @IsOptional()
